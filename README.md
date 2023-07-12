@@ -1,6 +1,6 @@
 # API Plot Graphics
 
-Projeto focado em exibir gráficos. A ferramenta tem o propósito de facilitar o plot de gráficos nos mais diversos tipos. Os gráficos que serão montados são:
+Projeto OpenSource focado em exibir gráficos. A ferramenta tem o propósito de facilitar o plot de gráficos nos mais diversos tipos. Os gráficos que serão montados são:
 
  - Gráfico de Linhas.
  - Gráfico de Barras.
@@ -13,6 +13,8 @@ Para montar esta API esta sendo usado a biblioteca SFML e a linguagem de program
 ## Instalação
 
 Para instalar é necessário ter o gcc, g++, cmake e make, além da biblioteca do SFML.
+
+<details><summary>Mostrar orientações</summary>
 
 **Veja se ao instalar a versão do SFML é a 2.5.1, pois é a versão que estou usando no projeto.**
 
@@ -42,6 +44,8 @@ E para testar é só colocar:
 ./PlotGraph Barra
 ```
 
+</details>
+
 ## Créditos
 
 [SFML](https://www.sfml-dev.org/).
@@ -53,6 +57,9 @@ Constribuições são bem vindas! Faça seu fork e comece a ajudar mandando seu 
 Caso queira relatar bugs, erros ou sugestões, ou também queira dar ideias de novas features não deixe de fazer um issues
 
 Para Contribuir siga as seguintes orientações.
+
+<details><summary>Mostrar orientações</summary>
+
 Caso tenha feito fork para contribuir com o projeto, faça os seguintes passos:
 
 ```
@@ -73,3 +80,11 @@ git push origin seu_usuario --force
 ```
 
 Assim seu repositório que foi feito o fork será atualizado.
+
+</details>
+
+## Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+Consulte o arquivo LICENSE para saber mais.
