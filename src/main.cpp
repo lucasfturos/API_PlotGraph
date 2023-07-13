@@ -1,4 +1,5 @@
 #include "BarChart/bar_chart.hpp"
+#include "DonutChart/donut_chart.hpp"
 #include "LineGraph/line_graph.hpp"
 #include <memory>
 #include <unordered_map>
@@ -11,12 +12,13 @@ int main(int argc, char *argv[]) {
         }
 
         std::unordered_map<std::string, int> optionsGraph{
-            {"Linha", 1}, {"Barra", 2},    {"Rosca", 3},
+            {"Linha", 1}, {"Barra", 2},     {"Rosca", 3},
             {"Pizza", 4}, {"Dispersão", 5}, {"Área", 6}};
 
-        auto input{argv[1]};
-        auto bar{std::make_shared<BarCharts>()};
-        auto line{std::make_shared<LineGraph>()};
+        auto input = argv[1];
+        auto bar = std::make_shared<BarCharts>();
+        auto line = std::make_shared<LineGraph>();
+        auto donut = std::make_shared<DonutChart>();
         auto it = optionsGraph.find(input);
 
         if (it == optionsGraph.end()) {
@@ -32,7 +34,7 @@ int main(int argc, char *argv[]) {
             bar->run();
             break;
         case 3:
-            std::cout << "Rosca logo será implementado!!" << '\n';
+            donut->run();
             break;
         case 4:
             std::cout << "Pizza logo será implementado!!" << '\n';
