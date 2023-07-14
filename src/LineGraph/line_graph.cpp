@@ -74,7 +74,6 @@ void LineGraph::displayLine(const std::vector<DataPoint> &lines) {
 
     // Desenhar linhas
     std::vector<sf::VertexArray> line_segments;
-    const float line_thickness = 2.0f; // Espessura das linhas
     for (const auto &line : lines) {
         sf::VertexArray line_segment(sf::LineStrip, line.values.size());
         for (std::size_t i = 0; i < line.values.size(); ++i) {
