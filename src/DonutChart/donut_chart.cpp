@@ -1,4 +1,5 @@
 #include "donut_chart.hpp"
+#include <string>
 
 void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
     const std::string title = "Gráfico de Rosquinha";
@@ -25,28 +26,6 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
         return;
     }
 
-    // Legenda da fatia da rosquinha
-    std::vector<sf::Text> labels;
-    for (std::size_t i = 0; i < data.size(); ++i) {
-        const auto &dp = data[i];
-
-        sf::Text label(std::to_string(static_cast<int>(dp.value)), font, 16);
-        label.setFillColor(sf::Color::Black);
-
-        float label_angle = start_angle + (end_angle - start_angle) / 2.f;
-        float label_radians = label_angle * M_PI / 180.f;
-        // Posição no interior da rosquinha
-        float label_radius = donut_radius + (radius - donut_radius) / 2.f;
-        float labelX = centerX + label_radius * std::cos(label_radians);
-        float labelY = centerY + label_radius * std::sin(label_radians);
-        label.setPosition(labelX, labelY);
-        label.setOrigin(label.getLocalBounds().width / 2.f,
-                        label.getLocalBounds().height / 2.f);
-
-        labels.push_back(label);
-        start_angle = end_angle;
-    }
-
     // Legenda lateral
     sf::Text legend_title(
         sf::String::fromUtf8(info_legenda.begin(), info_legenda.end()), font,
@@ -68,7 +47,14 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
         rectangle.setFillColor(dp.color);
         rectangle.setPosition(20, 50 + i * (legend_size + legend_spacing));
 
-        sf::Text label(dp.label, font, 16);
+        const int pression = 1 + 1; // Substituir 1 por variável de precisão
+        const std::string legenda_value =
+            ": " +
+            std::to_string(dp.value).substr(
+                0, std::to_string(dp.value).find(".") + pression) +
+            "%";
+
+        sf::Text label(dp.label + legenda_value, font, 16);
         label.setFillColor(sf::Color::Black);
         label.setPosition(20 + legend_text_Offset,
                           50 + i * (legend_size + legend_spacing) +
@@ -121,14 +107,11 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
 
         window.draw(inner_circle);
 
-        for (const auto &label : labels) {
-            window.draw(label);
-        }
-
         window.draw(legend_title);
         for (const auto &rectangle : legend_rectangles) {
             window.draw(rectangle);
         }
+
         for (const auto &label : legend_labels) {
             window.draw(label);
         }

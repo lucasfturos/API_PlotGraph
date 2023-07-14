@@ -7,10 +7,10 @@ void BarCharts::displayBarChart(const std::vector<BarData> &bars) {
     window.setFramerateLimit(60);
 
     const int margin = 50;
-    const int chartWidth = 700;
-    const int chartHeight = 500;
-    const int barWidth = chartWidth / bars.size();
-    const int maxValue =
+    const int chart_width = 700;
+    const int chart_height = 500;
+    const int bar_width = chart_width / bars.size();
+    const int max_value =
         std::max_element(bars.begin(), bars.end(),
                          [](const BarData &a, const BarData &b) {
                              return a.value < b.value;
@@ -20,61 +20,63 @@ void BarCharts::displayBarChart(const std::vector<BarData> &bars) {
     const std::string legendaY = "Eixo Y";
 
     sf::Font font;
-    if (!font.loadFromFile(filename)) {
+    if (!font.loadFromFile(filename_font_arial)) {
         std::cerr << "Falha ao carregar a fonte.\n";
         return;
     }
 
-    std::vector<sf::RectangleShape> barShapes;
+    std::vector<sf::RectangleShape> bar_shapes;
     for (std::size_t i = 0; i < bars.size(); ++i) {
         const BarData &bar = bars[i];
-        sf::RectangleShape barShape(sf::Vector2f(
-            barWidth, static_cast<float>(-chartHeight) * bar.value / maxValue));
-        barShape.setFillColor(bar.color);
-        barShape.setPosition(margin + i * barWidth, margin + chartHeight);
-        barShapes.push_back(barShape);
+        sf::RectangleShape bar_shape(
+            sf::Vector2f(bar_width, static_cast<float>(-chart_height) *
+                                        bar.value / max_value));
+        bar_shape.setFillColor(bar.color);
+        bar_shape.setPosition(margin + i * bar_width, margin + chart_height);
+        bar_shapes.push_back(bar_shape);
     }
 
-    std::vector<sf::Text> barLabels;
+    std::vector<sf::Text> bar_labels;
     for (std::size_t i = 0; i < bars.size(); ++i) {
         const BarData &bar = bars[i];
         sf::Text label(bar.label, font, 12);
         label.setFillColor(sf::Color::Black);
-        label.setPosition(margin + i * barWidth +
-                              static_cast<float>(barWidth) / 2 -
+        label.setPosition(margin + i * bar_width +
+                              static_cast<float>(bar_width) / 2 -
                               label.getLocalBounds().width / 2,
-                          margin + chartHeight + 10);
-        barLabels.push_back(label);
+                          margin + chart_height + 10);
+        bar_labels.push_back(label);
     }
 
     sf::VertexArray xAxis(sf::Lines, 2);
-    xAxis[0].position = sf::Vector2f(margin, margin + chartHeight);
+    xAxis[0].position = sf::Vector2f(margin, margin + chart_height);
     xAxis[0].color = sf::Color::Black;
-    xAxis[1].position = sf::Vector2f(margin + chartWidth, margin + chartHeight);
+    xAxis[1].position =
+        sf::Vector2f(margin + chart_width, margin + chart_height);
     xAxis[1].color = sf::Color::Black;
 
     sf::VertexArray yAxis(sf::Lines, 2);
     yAxis[0].position = sf::Vector2f(margin, margin);
     yAxis[0].color = sf::Color::Black;
-    yAxis[1].position = sf::Vector2f(margin, margin + chartHeight);
+    yAxis[1].position = sf::Vector2f(margin, margin + chart_height);
     yAxis[1].color = sf::Color::Black;
 
-    sf::VertexArray horizontalLines(sf::Lines);
+    sf::VertexArray horizontal_lines(sf::Lines);
     for (int i = 0; i <= 10; ++i) {
-        int y = margin + i * (chartHeight / 10);
-        horizontalLines.append(
+        int y = margin + i * (chart_height / 10);
+        horizontal_lines.append(
             sf::Vertex(sf::Vector2f(margin, y), sf::Color(200, 200, 200)));
-        horizontalLines.append(sf::Vertex(sf::Vector2f(margin + chartWidth, y),
-                                          sf::Color(200, 200, 200)));
+        horizontal_lines.append(sf::Vertex(
+            sf::Vector2f(margin + chart_width, y), sf::Color(200, 200, 200)));
     }
 
     sf::Text yLabel(sf::String::fromUtf8(legendaY.begin(), legendaY.end()),
                     font, 16);
     yLabel.setFillColor(sf::Color::Black);
     yLabel.setRotation(-90);
-    yLabel.setPosition(margin - 30, margin + chartHeight - 10);
+    yLabel.setPosition(margin - 30, margin + chart_height - 10);
 
-    sf::Text yMaxLabel(std::to_string(maxValue), font, 16);
+    sf::Text yMaxLabel(std::to_string(max_value), font, 16);
     yMaxLabel.setFillColor(sf::Color::Black);
     yMaxLabel.setPosition(margin - yMaxLabel.getLocalBounds().width - 10,
                           margin - yMaxLabel.getLocalBounds().height / 2);
@@ -82,7 +84,7 @@ void BarCharts::displayBarChart(const std::vector<BarData> &bars) {
     sf::Text yMinLabel(std::to_string(0), font, 16);
     yMinLabel.setFillColor(sf::Color::Black);
     yMinLabel.setPosition(margin - yMinLabel.getLocalBounds().width - 10,
-                          margin + chartHeight -
+                          margin + chart_height -
                               yMinLabel.getLocalBounds().height / 2);
 
     while (window.isOpen()) {
@@ -97,16 +99,16 @@ void BarCharts::displayBarChart(const std::vector<BarData> &bars) {
 
         window.draw(xAxis);
         window.draw(yAxis);
-        window.draw(horizontalLines);
+        window.draw(horizontal_lines);
         window.draw(yLabel);
         window.draw(yMaxLabel);
         window.draw(yMinLabel);
 
-        for (const auto &barShape : barShapes) {
+        for (const auto &barShape : bar_shapes) {
             window.draw(barShape);
         }
 
-        for (const auto &barLabel : barLabels) {
+        for (const auto &barLabel : bar_labels) {
             window.draw(barLabel);
         }
 
@@ -124,7 +126,6 @@ void BarCharts::run() {
         {"Barra 6", 60, sf::Color::Red},
         {"Barra 7", 70, sf::Color::Green},
         {"Barra 8", 80, sf::Color::Yellow},
-        {"Barra 9", 400, sf::Color::Magenta},
     };
 
     displayBarChart(bars);
