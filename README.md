@@ -76,10 +76,13 @@ Antes de começar a contruibuir, é necessário reiniciar o número de commits n
 ```
 git remote update
 git reset upstream/master --hard
+```
+Trabalhe normalmente no branch. Quando desejar enviar seu resultado para o seu repositório, faça o push com:
+```
 git push origin seu_usuario --force
 ```
 
-Assim seu repositório que foi feito o fork será atualizado.
+Assim seu repositório que foi feito fork será atualizado.
 
 </details>
 
