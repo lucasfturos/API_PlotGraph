@@ -27,7 +27,7 @@ Para instalar as dependências do projeto no Windows tem alguns tutoriais no You
 
 Tem dois tutoriais que recomendo para fazer a instalação, são do site Terminal Root:
  - [Como Instalar GCC/G++ MinGW no Windows](https://terminalroot.com.br/2022/12/como-instalar-gcc-gpp-mingw-no-windows.html).
- = [Como Compilar Seus Jogos em SFML com GCC MinGW no Windows](https://terminalroot.com.br/2023/03/como-compilar-seus-jogos-em-sfml-com-gcc-mingw-no-windows.html).
+ - [Como Compilar Seus Jogos em SFML com GCC MinGW no Windows](https://terminalroot.com.br/2023/03/como-compilar-seus-jogos-em-sfml-com-gcc-mingw-no-windows.html).
 
 Após realizar a instalação das dependências, faça os seguintes passos:
 
