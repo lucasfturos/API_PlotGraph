@@ -12,13 +12,15 @@ set(CMAKE_CXX_STANDARD 17)            # Enable c++11 standard
 
 set(PROJECT_HEADER                    # Directory of all header file
   src/DonutChart/donut_chart.hpp
-  src/LineGraph/line_graph.hpp
+  src/PizzaChart/pizza_chart.hpp
+  src/LineChart/line_chart.hpp
   src/BarChart/bar_chart.hpp
 )
 
 set(PROJECT_SOURCE                    # Directory of all source file
   src/DonutChart/donut_chart.cpp
-  src/LineGraph/line_graph.cpp
+  src/PizzaChart/pizza_chart.cpp
+  src/LineChart/line_chart.cpp
   src/BarChart/bar_chart.cpp
   src/main.cpp
 )

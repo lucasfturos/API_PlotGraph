@@ -1,6 +1,6 @@
-#include "line_graph.hpp"
+#include "line_chart.hpp"
 
-void LineGraph::displayLine(const std::vector<DataPoint> &lines) {
+void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     const std::string title = "Gráfico de Linha";
     sf::RenderWindow window(sf::VideoMode(800, 600),
                             sf::String::fromUtf8(title.begin(), title.end()));
@@ -112,7 +112,7 @@ void LineGraph::displayLine(const std::vector<DataPoint> &lines) {
     }
 }
 
-void LineGraph::run() {
+void LineChart::run() {
     std::vector<DataPoint> lines = {
         {{10, 30, 40, 20, 50, 40, 30, 60, 50}, sf::Color::Red},
         {{50, 30, 40, 60, 20, 50, 60, 80, 70}, sf::Color::Blue},

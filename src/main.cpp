@@ -1,6 +1,6 @@
 #include "BarChart/bar_chart.hpp"
 #include "DonutChart/donut_chart.hpp"
-#include "LineGraph/line_graph.hpp"
+#include "LineChart/line_chart.hpp"
 #include <memory>
 #include <unordered_map>
 
@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
         auto input = argv[1];
         auto bar = std::make_shared<BarCharts>();
-        auto line = std::make_shared<LineGraph>();
+        auto line = std::make_shared<LineChart>();
         auto donut = std::make_shared<DonutChart>();
         auto it = optionsGraph.find(input);
 
