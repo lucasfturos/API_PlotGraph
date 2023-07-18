@@ -1,6 +1,7 @@
 #include "scatter_chart.hpp"
 
-void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
+void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters,
+                                  int pression) {
     const std::string title = "Gráfico de Dispersão";
     sf::RenderWindow window(sf::VideoMode(800, 600),
                             sf::String::fromUtf8(title.begin(), title.end()));
@@ -19,8 +20,8 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
         }
     }
 
-    const int num_vertical_lines = (max_value / 5) / scatters.size();
-    const int num_horizontal_lines = (max_value / 5) / scatters.size();
+    const int num_vertical_lines = (max_value / pression) / scatters.size();
+    const int num_horizontal_lines = (max_value / pression) / scatters.size();
 
     // Adiciona a fonte para as legendas e números nos eixos
     sf::Font font;
@@ -115,6 +116,24 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
                                          sf::Color(200, 200, 200)));
     }
 
+    // Desenha os pontos do gráfico
+    std::vector<sf::CircleShape> circles;
+    for (const auto &scatter : scatters) {
+        for (std::size_t i = 0; i < scatter.values.size(); ++i) {
+            float x = margin + i * (static_cast<float>(chart_width) /
+                                    (scatter.values.size() - 1));
+            float y = margin + chart_height -
+                      scatter.values[i] *
+                          (static_cast<float>(chart_height) / max_value);
+
+            sf::CircleShape circle(3.f);
+            circle.setFillColor(scatter.color);
+            circle.setPosition(x - circle.getRadius(), y - circle.getRadius());
+
+            circles.push_back(circle);
+        }
+    }
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -127,14 +146,19 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
 
         window.draw(xLabel);
         window.draw(yLabel);
+        window.draw(vertical_lines);
+        window.draw(horizontal_lines);
+
+        for (const auto &circle : circles) {
+            window.draw(circle);
+        }
+
         for (const auto &value_label : yValueLabel) {
             window.draw(value_label);
         }
         for (const auto &value_label : xValueLabel) {
             window.draw(value_label);
         }
-        window.draw(vertical_lines);
-        window.draw(horizontal_lines);
         window.draw(xAxis);
         window.draw(yAxis_left);
         window.draw(yAxis_right);
@@ -144,11 +168,36 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
 }
 
 void ScatterChart::run() {
-    std::vector<DataPoint> scatter = {
-        {{0.f, 10.f, 30.f, 40.f, 20.f, 50.f, 40.f, 30.f, 60.f, 50.f},
-         sf::Color::Red},
-        {{0.f, 10.f, 30.f, 40.f, 20.f, 50.f, 40.f, 30.f, 60.f, 50.f},
-         sf::Color::Black}};
+    std::vector<DataPoint> scatter;
+    auto seed =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::mt19937 gen(seed);
+    std::uniform_real_distribution<float> dis(0.f, 101.f);
 
-    displayScatter(scatter);
+    std::vector<float> values1;
+    for (int i = 0; i < 100; ++i) {
+        values1.push_back(dis(gen));
+    }
+    scatter.push_back({values1, sf::Color::Red});
+
+    std::vector<float> values2;
+    for (int i = 0; i < 100; ++i) {
+        values2.push_back(dis(gen));
+    }
+    scatter.push_back({values2, sf::Color::Cyan});
+
+    std::vector<float> values3;
+    for (int i = 0; i < 100; ++i) {
+        values3.push_back(dis(gen));
+    }
+    scatter.push_back({values3, sf::Color::Magenta});
+
+    std::vector<float> values4;
+    for (int i = 0; i < 100; ++i) {
+        values4.push_back(dis(gen));
+    }
+    scatter.push_back({values4, sf::Color::Blue});
+
+    displayScatter(scatter, 100 / 20);
 }
+
