@@ -7,8 +7,8 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
     window.setFramerateLimit(60);
 
     const int margin = 60;
-    const int graph_width = 700;
-    const int graph_height = 480;
+    const int chart_width = 700;
+    const int chart_height = 480;
     int max_value = 0;
 
     for (const auto &scatter : scatters) {
@@ -30,30 +30,30 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
 
     // Configurações do eixo X
     sf::VertexArray xAxis(sf::Lines, 2);
-    xAxis[0].position = sf::Vector2f(margin, margin + graph_height);
+    xAxis[0].position = sf::Vector2f(margin, margin + chart_height);
     xAxis[0].color = sf::Color::Black;
     xAxis[1].position =
-        sf::Vector2f(margin + graph_width, margin + graph_height);
+        sf::Vector2f(margin + chart_width, margin + chart_height);
     xAxis[1].color = sf::Color::Black;
 
     // Configurações do eixo Y esquerdo
     sf::VertexArray yAxis_left(sf::Lines, 2);
     yAxis_left[0].position = sf::Vector2f(margin, margin);
     yAxis_left[0].color = sf::Color::Black;
-    yAxis_left[1].position = sf::Vector2f(margin, margin + graph_height);
+    yAxis_left[1].position = sf::Vector2f(margin, margin + chart_height);
     yAxis_left[1].color = sf::Color::Black;
     // Configurações do eixo Y direito
     sf::VertexArray yAxis_right(sf::Lines, 2);
-    yAxis_right[0].position = sf::Vector2f(margin + graph_width, margin);
+    yAxis_right[0].position = sf::Vector2f(margin + chart_width, margin);
     yAxis_right[0].color = sf::Color::Black;
     yAxis_right[1].position =
-        sf::Vector2f(margin + graph_width, margin + graph_height);
+        sf::Vector2f(margin + chart_width, margin + chart_height);
     yAxis_right[1].color = sf::Color::Black;
 
     // Legenga da grade Y e X
     std::vector<sf::Text> yValueLabel;
     float yLabelSpacing =
-        static_cast<float>(graph_height) / (num_horizontal_lines);
+        static_cast<float>(chart_height) / (num_horizontal_lines);
     float yValueSpacing = static_cast<float>(max_value) / num_horizontal_lines;
     for (int i = 0; i <= num_horizontal_lines; i++) {
         int yValue = i * yValueSpacing;
@@ -61,13 +61,13 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
         value_label.setFillColor(sf::Color::Black);
         value_label.setPosition(margin - value_label.getLocalBounds().width -
                                     10,
-                                margin + graph_height - i * yLabelSpacing -
+                                margin + chart_height - i * yLabelSpacing -
                                     value_label.getLocalBounds().height / 2);
         yValueLabel.push_back(value_label);
     }
 
     std::vector<sf::Text> xValueLabel;
-    float xLabelSpacing = static_cast<float>(graph_width) / num_vertical_lines;
+    float xLabelSpacing = static_cast<float>(chart_width) / num_vertical_lines;
     float xValueSpacing = static_cast<float>(max_value) / num_vertical_lines;
     for (int i = 1; i <= num_vertical_lines; i++) {
         int xValue = i * xValueSpacing;
@@ -75,7 +75,7 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
         value_label.setFillColor(sf::Color::Black);
         value_label.setPosition(margin + i * xLabelSpacing -
                                     value_label.getLocalBounds().width / 2,
-                                margin + graph_height + 10);
+                                margin + chart_height + 10);
         xValueLabel.push_back(value_label);
     }
 
@@ -85,15 +85,15 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
     sf::Text xLabel(sf::String::fromUtf8(legendaX.begin(), legendaX.end()),
                     font, 16);
     xLabel.setFillColor(sf::Color::Black);
-    xLabel.setPosition(40 + static_cast<float>(graph_width) / 2,
-                       margin + graph_height + 30);
+    xLabel.setPosition(40 + static_cast<float>(chart_width) / 2,
+                       margin + chart_height + 30);
 
     sf::Text yLabel(sf::String::fromUtf8(legendaY.begin(), legendaY.end()),
                     font, 16);
     yLabel.setFillColor(sf::Color::Black);
     yLabel.setRotation(-90);
     yLabel.setPosition(margin - 50,
-                       20 + margin + static_cast<float>(graph_height) / 2);
+                       20 + margin + static_cast<float>(chart_height) / 2);
 
     // Grade vertical e horizontal
     sf::VertexArray horizontal_lines(sf::Lines);
@@ -102,16 +102,16 @@ void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
         horizontal_lines.append(
             sf::Vertex(sf::Vector2f(margin, y), sf::Color(200, 200, 200)));
         horizontal_lines.append(sf::Vertex(
-            sf::Vector2f(margin + graph_width, y), sf::Color(200, 200, 200)));
+            sf::Vector2f(margin + chart_width, y), sf::Color(200, 200, 200)));
     }
 
     sf::VertexArray vertical_lines(sf::Lines);
     for (int i = 0; i <= num_vertical_lines; ++i) {
         int x =
-            margin + i * (static_cast<float>(graph_width) / num_vertical_lines);
+            margin + i * (static_cast<float>(chart_width) / num_vertical_lines);
         vertical_lines.append(
             sf::Vertex(sf::Vector2f(x, margin), sf::Color(200, 200, 200)));
-        vertical_lines.append(sf::Vertex(sf::Vector2f(x, margin + graph_height),
+        vertical_lines.append(sf::Vertex(sf::Vector2f(x, margin + chart_height),
                                          sf::Color(200, 200, 200)));
     }
 

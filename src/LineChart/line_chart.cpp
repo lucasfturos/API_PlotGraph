@@ -7,8 +7,8 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     window.setFramerateLimit(60);
 
     const int margin = 50;
-    const int graph_width = 700;
-    const int graph_height = 480;
+    const int chart_width = 700;
+    const int chart_height = 480;
     int max_value = 0;
 
     for (const auto &line : lines) {
@@ -27,17 +27,17 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
 
     // Configurações do eixo X
     sf::VertexArray xAxis(sf::Lines, 2);
-    xAxis[0].position = sf::Vector2f(margin, margin + graph_height);
+    xAxis[0].position = sf::Vector2f(margin, margin + chart_height);
     xAxis[0].color = sf::Color::Black;
     xAxis[1].position =
-        sf::Vector2f(margin + graph_width, margin + graph_height);
+        sf::Vector2f(margin + chart_width, margin + chart_height);
     xAxis[1].color = sf::Color::Black;
 
     // Configurações do eixo y
     sf::VertexArray yAxis(sf::Lines, 2);
     yAxis[0].position = sf::Vector2f(margin, margin);
     yAxis[0].color = sf::Color::Black;
-    yAxis[1].position = sf::Vector2f(margin, margin + graph_height);
+    yAxis[1].position = sf::Vector2f(margin, margin + chart_height);
     yAxis[1].color = sf::Color::Black;
 
     // Adiciona a fonte para as legendas e números nos eixos
@@ -49,7 +49,7 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     // Legenga da grade Y e X
     std::vector<sf::Text> yValueLabel;
     float yLabelSpacing =
-        static_cast<float>(graph_height) / (num_horizontal_lines);
+        static_cast<float>(chart_height) / (num_horizontal_lines);
     float yValueSpacing = static_cast<float>(max_value) / num_horizontal_lines;
     for (int i = 0; i <= num_horizontal_lines; i++) {
         int yValue = i * yValueSpacing;
@@ -57,13 +57,13 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
         value_label.setFillColor(sf::Color::Black);
         value_label.setPosition(margin - value_label.getLocalBounds().width -
                                     10,
-                                margin + graph_height - i * yLabelSpacing -
+                                margin + chart_height - i * yLabelSpacing -
                                     value_label.getLocalBounds().height / 2);
         yValueLabel.push_back(value_label);
     }
 
     std::vector<sf::Text> xValueLabel;
-    float xLabelSpacing = static_cast<float>(graph_width) / num_vertical_lines;
+    float xLabelSpacing = static_cast<float>(chart_width) / num_vertical_lines;
     float xValueSpacing = static_cast<float>(max_value) / num_vertical_lines;
     for (int i = 1; i <= num_vertical_lines; i++) {
         int xValue = i * xValueSpacing;
@@ -71,7 +71,7 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
         value_label.setFillColor(sf::Color::Black);
         value_label.setPosition(margin + i * xLabelSpacing -
                                     value_label.getLocalBounds().width / 2,
-                                margin + graph_height + 10);
+                                margin + chart_height + 10);
         xValueLabel.push_back(value_label);
     }
 
@@ -79,15 +79,15 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     sf::Text xLabel(sf::String::fromUtf8(legendaX.begin(), legendaX.end()),
                     font, 16);
     xLabel.setFillColor(sf::Color::Black);
-    xLabel.setPosition(40 + static_cast<float>(graph_width) / 2,
-                       margin + graph_height + 30);
+    xLabel.setPosition(40 + static_cast<float>(chart_width) / 2,
+                       margin + chart_height + 30);
 
     sf::Text yLabel(sf::String::fromUtf8(legendaY.begin(), legendaY.end()),
                     font, 16);
     yLabel.setFillColor(sf::Color::Black);
     yLabel.setRotation(-90);
     yLabel.setPosition(margin - 50,
-                       20 + margin + static_cast<float>(graph_height) / 2);
+                       20 + margin + static_cast<float>(chart_height) / 2);
 
     sf::VertexArray horizontal_lines(sf::Lines);
     for (int i = 0; i <= num_horizontal_lines; ++i) {
@@ -95,7 +95,7 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
         horizontal_lines.append(
             sf::Vertex(sf::Vector2f(margin, y), sf::Color(200, 200, 200)));
         horizontal_lines.append(sf::Vertex(
-            sf::Vector2f(margin + graph_width, y), sf::Color(200, 200, 200)));
+            sf::Vector2f(margin + chart_width, y), sf::Color(200, 200, 200)));
     }
 
     // Desenhar linhas
@@ -105,11 +105,11 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
         for (std::size_t i = 0; i < line.values.size(); ++i) {
             sf::Vertex vx;
             line_segment[i].position =
-                sf::Vector2f(margin + i * (static_cast<float>(graph_width) /
+                sf::Vector2f(margin + i * (static_cast<float>(chart_width) /
                                            (line.values.size() - 1)),
-                             margin + graph_height -
+                             margin + chart_height -
                                  (static_cast<float>(line.values[i]) *
-                                  graph_height / max_value));
+                                  chart_height / max_value));
             line_segment[i].color = line.color;
         }
         line_segments.push_back(line_segment);
