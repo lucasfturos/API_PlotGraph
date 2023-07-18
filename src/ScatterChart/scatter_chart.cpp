@@ -1,29 +1,32 @@
-#include "line_chart.hpp"
+#include "scatter_chart.hpp"
 
-void LineChart::displayLine(const std::vector<DataPoint> &lines) {
-    const std::string title = "Gráfico de Linha";
+void ScatterChart::displayScatter(const std::vector<DataPoint> &scatters) {
+    const std::string title = "Gráfico de Dispersão";
     sf::RenderWindow window(sf::VideoMode(800, 600),
                             sf::String::fromUtf8(title.begin(), title.end()));
     window.setFramerateLimit(60);
 
-    const int margin = 50;
+    const int margin = 60;
     const int graph_width = 700;
     const int graph_height = 480;
     int max_value = 0;
 
-    for (const auto &line : lines) {
-        int line_max_value =
-            *std::max_element(line.values.begin(), line.values.end());
-        if (line_max_value > max_value) {
-            max_value = line_max_value;
+    for (const auto &scatter : scatters) {
+        int scatter_max_value =
+            *std::max_element(scatter.values.begin(), scatter.values.end());
+        if (scatter_max_value > max_value) {
+            max_value = scatter_max_value;
         }
     }
-    const int num_vertical_lines = (max_value / 5) / lines.size();
-    const int num_horizontal_lines =
-        (max_value / 5) /
-        lines.size(); // Alterar o 5 para uma variável de precisão
-    std::string legendaX = "Eixo X";
-    std::string legendaY = "Eixo Y";
+
+    const int num_vertical_lines = (max_value / 5) / scatters.size();
+    const int num_horizontal_lines = (max_value / 5) / scatters.size();
+
+    // Adiciona a fonte para as legendas e números nos eixos
+    sf::Font font;
+    if (!font.loadFromFile(filename_font_arial)) {
+        throw std::runtime_error("Falha ao carregar a fonte.");
+    }
 
     // Configurações do eixo X
     sf::VertexArray xAxis(sf::Lines, 2);
@@ -33,18 +36,19 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
         sf::Vector2f(margin + graph_width, margin + graph_height);
     xAxis[1].color = sf::Color::Black;
 
-    // Configurações do eixo y
-    sf::VertexArray yAxis(sf::Lines, 2);
-    yAxis[0].position = sf::Vector2f(margin, margin);
-    yAxis[0].color = sf::Color::Black;
-    yAxis[1].position = sf::Vector2f(margin, margin + graph_height);
-    yAxis[1].color = sf::Color::Black;
-
-    // Adiciona a fonte para as legendas e números nos eixos
-    sf::Font font;
-    if (!font.loadFromFile(filename_font_arial)) {
-        throw std::runtime_error("Falha ao carregar a fonte.");
-    }
+    // Configurações do eixo Y esquerdo
+    sf::VertexArray yAxis_left(sf::Lines, 2);
+    yAxis_left[0].position = sf::Vector2f(margin, margin);
+    yAxis_left[0].color = sf::Color::Black;
+    yAxis_left[1].position = sf::Vector2f(margin, margin + graph_height);
+    yAxis_left[1].color = sf::Color::Black;
+    // Configurações do eixo Y direito
+    sf::VertexArray yAxis_right(sf::Lines, 2);
+    yAxis_right[0].position = sf::Vector2f(margin + graph_width, margin);
+    yAxis_right[0].color = sf::Color::Black;
+    yAxis_right[1].position =
+        sf::Vector2f(margin + graph_width, margin + graph_height);
+    yAxis_right[1].color = sf::Color::Black;
 
     // Legenga da grade Y e X
     std::vector<sf::Text> yValueLabel;
@@ -76,6 +80,8 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     }
 
     // Legenda dos Eixos X e Y
+    std::string legendaX = "Eixo X";
+    std::string legendaY = "Eixo Y";
     sf::Text xLabel(sf::String::fromUtf8(legendaX.begin(), legendaX.end()),
                     font, 16);
     xLabel.setFillColor(sf::Color::Black);
@@ -89,6 +95,7 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     yLabel.setPosition(margin - 50,
                        20 + margin + static_cast<float>(graph_height) / 2);
 
+    // Grade vertical e horizontal
     sf::VertexArray horizontal_lines(sf::Lines);
     for (int i = 0; i <= num_horizontal_lines; ++i) {
         int y = margin + i * yLabelSpacing;
@@ -98,21 +105,14 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
             sf::Vector2f(margin + graph_width, y), sf::Color(200, 200, 200)));
     }
 
-    // Desenhar linhas
-    std::vector<sf::VertexArray> line_segments;
-    for (const auto &line : lines) {
-        sf::VertexArray line_segment(sf::LineStrip, line.values.size());
-        for (std::size_t i = 0; i < line.values.size(); ++i) {
-            sf::Vertex vx;
-            line_segment[i].position =
-                sf::Vector2f(margin + i * (static_cast<float>(graph_width) /
-                                           (line.values.size() - 1)),
-                             margin + graph_height -
-                                 (static_cast<float>(line.values[i]) *
-                                  graph_height / max_value));
-            line_segment[i].color = line.color;
-        }
-        line_segments.push_back(line_segment);
+    sf::VertexArray vertical_lines(sf::Lines);
+    for (int i = 0; i <= num_vertical_lines; ++i) {
+        int x =
+            margin + i * (static_cast<float>(graph_width) / num_vertical_lines);
+        vertical_lines.append(
+            sf::Vertex(sf::Vector2f(x, margin), sf::Color(200, 200, 200)));
+        vertical_lines.append(sf::Vertex(sf::Vector2f(x, margin + graph_height),
+                                         sf::Color(200, 200, 200)));
     }
 
     while (window.isOpen()) {
@@ -125,30 +125,30 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
 
         window.clear(sf::Color::White);
 
+        window.draw(xLabel);
+        window.draw(yLabel);
         for (const auto &value_label : yValueLabel) {
             window.draw(value_label);
         }
         for (const auto &value_label : xValueLabel) {
             window.draw(value_label);
         }
+        window.draw(vertical_lines);
         window.draw(horizontal_lines);
-        for (const auto &line_segment : line_segments) {
-            window.draw(line_segment);
-        }
-        window.draw(xLabel);
-        window.draw(yLabel);
         window.draw(xAxis);
-        window.draw(yAxis);
+        window.draw(yAxis_left);
+        window.draw(yAxis_right);
 
         window.display();
     }
 }
 
-void LineChart::run() {
-    std::vector<DataPoint> lines = {
-        {{10, 30, 40, 20, 50, 40, 30, 60, 50}, sf::Color::Red},
-        {{50, 30, 40, 60, 20, 50, 60, 80, 70}, sf::Color::Blue},
-        {{20, 20, 10, 50, 60, 70, 100, 60, 70}, sf::Color::Black}};
+void ScatterChart::run() {
+    std::vector<DataPoint> scatter = {
+        {{0.f, 10.f, 30.f, 40.f, 20.f, 50.f, 40.f, 30.f, 60.f, 50.f},
+         sf::Color::Red},
+        {{0.f, 10.f, 30.f, 40.f, 20.f, 50.f, 40.f, 30.f, 60.f, 50.f},
+         sf::Color::Black}};
 
-    displayLine(lines);
+    displayScatter(scatter);
 }

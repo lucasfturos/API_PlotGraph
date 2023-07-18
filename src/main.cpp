@@ -2,6 +2,7 @@
 #include "DonutChart/donut_chart.hpp"
 #include "LineChart/line_chart.hpp"
 #include "PieChart/pie_chart.hpp"
+#include "ScatterChart/scatter_chart.hpp"
 #include <memory>
 #include <unordered_map>
 
@@ -13,14 +14,15 @@ int main(int argc, char *argv[]) {
         }
 
         std::unordered_map<std::string, int> optionsGraph{
-            {"Linha", 1}, {"Barra", 2},     {"Rosca", 3},
-            {"Pizza", 4}, {"Dispersão", 5}, {"Área", 6}};
+            {"Line", 1}, {"Bar", 2},     {"Donut", 3},
+            {"Pie", 4},  {"Scatter", 5}, {"Area", 6}};
 
         auto input = argv[1];
+        auto pie = std::make_shared<PieChart>();
         auto bar = std::make_shared<BarCharts>();
         auto line = std::make_shared<LineChart>();
         auto donut = std::make_shared<DonutChart>();
-        auto pie = std::make_shared<PieChart>();
+        auto scatter = std::make_shared<ScatterChart>();
         auto it = optionsGraph.find(input);
 
         if (it == optionsGraph.end()) {
@@ -42,7 +44,7 @@ int main(int argc, char *argv[]) {
             pie->run();
             break;
         case 5:
-            std::cout << "Dispersão logo será implementado!!" << '\n';
+            scatter->run();
             break;
         case 6:
             std::cout << "Área logo será implementado!!" << '\n';

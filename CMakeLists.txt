@@ -1,27 +1,29 @@
 cmake_minimum_required(VERSION 3.5)  # CMake version check
 
 set(PROJECT_NAME                      # Define all project info
-  PlotGraph
+  Plot
   LANGUAGES CXX
   VERSION 1.0.0
 )
 
-project(${PROJECT_NAME})              # Create project "PlotGraph"
+project(${PROJECT_NAME})              # Create project "Plot"
 
 set(CMAKE_CXX_STANDARD 17)            # Enable c++11 standard
 
 set(PROJECT_HEADER                    # Directory of all header file
+  src/ScatterChart/scatter_chart.hpp
   src/DonutChart/donut_chart.hpp
-  src/PieChart/pie_chart.hpp
   src/LineChart/line_chart.hpp
   src/BarChart/bar_chart.hpp
+  src/PieChart/pie_chart.hpp
 )
 
 set(PROJECT_SOURCE                    # Directory of all source file
+  src/ScatterChart/scatter_chart.cpp
   src/DonutChart/donut_chart.cpp
-  src/PieChart/pie_chart.cpp
   src/LineChart/line_chart.cpp
   src/BarChart/bar_chart.cpp
+  src/PieChart/pie_chart.cpp
   src/main.cpp
 )
 
