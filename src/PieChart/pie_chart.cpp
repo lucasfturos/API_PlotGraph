@@ -1,8 +1,7 @@
-#include "donut_chart.hpp"
-#include <string>
+#include "pie_chart.hpp"
 
-void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
-    const std::string title = "Gráfico de Rosquinha";
+void PieChart::displayPieChart(const std::vector<DataPoint> &data) {
+    const std::string title = "Gráfico de Pizza";
     sf::RenderWindow window(sf::VideoMode(800, 600),
                             sf::String::fromUtf8(title.begin(), title.end()));
     window.setFramerateLimit(60);
@@ -10,7 +9,6 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
     const int centerX = 400;
     const int centerY = 300;
     const int radius = 200;
-    const int donut_radius = 100;
     const float total_value = std::accumulate(
         data.begin(), data.end(), 0.f,
         [](float sum, const DataPoint &dp) { return sum + dp.value; });
@@ -18,14 +16,13 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
     float start_angle = 0.f;
     float end_angle = 0.f;
 
-    const std::string info_legenda = "Legenda:";
-
     sf::Font font;
     if (!font.loadFromFile(filename_font_arial)) {
         throw std::runtime_error("Falha ao carregar a fonte.");
     }
 
     // Legenda lateral
+    const std::string info_legenda = "Legenda:";
     sf::Text legend_title(
         sf::String::fromUtf8(info_legenda.begin(), info_legenda.end()), font,
         16);
@@ -64,7 +61,7 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
         legend_labels.push_back(label);
     }
 
-    // Desenha circulo externo
+    // Desenha a Pizza
     std::vector<sf::VertexArray> arcs;
     for (const auto &dp : data) {
         end_angle = start_angle + (dp.value / total_value) * 360.f;
@@ -81,14 +78,8 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
         }
 
         arcs.push_back(arc);
-
         start_angle = end_angle;
     }
-
-    // Desenha circulo interno
-    sf::CircleShape inner_circle(donut_radius);
-    inner_circle.setFillColor(sf::Color::White);
-    inner_circle.setPosition(centerX - donut_radius, centerY - donut_radius);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -104,8 +95,6 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
             window.draw(arc);
         }
 
-        window.draw(inner_circle);
-
         window.draw(legend_title);
         for (const auto &rectangle : legend_rectangles) {
             window.draw(rectangle);
@@ -119,14 +108,14 @@ void DonutChart::displayDonutChart(const std::vector<DataPoint> &data) {
     }
 }
 
-void DonutChart::run() {
+void PieChart::run() {
     std::vector<DataPoint> data = {
-        {"Segmento 1", 30.f, sf::Color::Red},
-        {"Segmento 2", 20.f, sf::Color::Green},
-        {"Segmento 3", 15.f, sf::Color::Blue},
+        {"Segmento 1", 40.f, sf::Color::Red},
+        {"Segmento 2", 30.f, sf::Color::Green},
+        {"Segmento 3", 20.f, sf::Color::Blue},
         {"Segmento 4", 10.f, sf::Color::Yellow},
-        {"Segmento 5", 25.f, sf::Color::Magenta},
+        {"Segmento 5", 5.f, sf::Color::Magenta},
     };
 
-    displayDonutChart(data);
+    displayPieChart(data);
 }

@@ -1,6 +1,7 @@
 #include "BarChart/bar_chart.hpp"
 #include "DonutChart/donut_chart.hpp"
 #include "LineChart/line_chart.hpp"
+#include "PieChart/pie_chart.hpp"
 #include <memory>
 #include <unordered_map>
 
@@ -19,6 +20,7 @@ int main(int argc, char *argv[]) {
         auto bar = std::make_shared<BarCharts>();
         auto line = std::make_shared<LineChart>();
         auto donut = std::make_shared<DonutChart>();
+        auto pie = std::make_shared<PieChart>();
         auto it = optionsGraph.find(input);
 
         if (it == optionsGraph.end()) {
@@ -37,7 +39,7 @@ int main(int argc, char *argv[]) {
             donut->run();
             break;
         case 4:
-            std::cout << "Pizza logo será implementado!!" << '\n';
+            pie->run();
             break;
         case 5:
             std::cout << "Dispersão logo será implementado!!" << '\n';

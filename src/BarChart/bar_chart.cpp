@@ -21,8 +21,7 @@ void BarCharts::displayBarChart(const std::vector<BarData> &bars) {
 
     sf::Font font;
     if (!font.loadFromFile(filename_font_arial)) {
-        std::cerr << "Falha ao carregar a fonte.\n";
-        return;
+        throw std::runtime_error("Falha ao carregar a fonte.");
     }
 
     std::vector<sf::RectangleShape> bar_shapes;
@@ -118,14 +117,10 @@ void BarCharts::displayBarChart(const std::vector<BarData> &bars) {
 
 void BarCharts::run() {
     std::vector<BarData> bars = {
-        {"Barra 1", 5, sf::Color::Red},
-        {"Barra 2", 20, sf::Color::Green},
-        {"Barra 3", 30, sf::Color::Blue},
-        {"Barra 4", 40, sf::Color::Yellow},
-        {"Barra 5", 50, sf::Color::Magenta},
-        {"Barra 6", 60, sf::Color::Red},
-        {"Barra 7", 70, sf::Color::Green},
-        {"Barra 8", 80, sf::Color::Yellow},
+        {"Barra 1", 5, sf::Color::Red},      {"Barra 2", 20, sf::Color::Green},
+        {"Barra 3", 30, sf::Color::Blue},    {"Barra 4", 40, sf::Color::Yellow},
+        {"Barra 5", 50, sf::Color::Magenta}, {"Barra 6", 60, sf::Color::Red},
+        {"Barra 7", 70, sf::Color::Green},   {"Barra 8", 80, sf::Color::Yellow},
     };
 
     displayBarChart(bars);

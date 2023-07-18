@@ -40,8 +40,7 @@ void LineChart::displayLine(const std::vector<DataPoint> &lines) {
     // Adiciona a fonte para as legendas e números nos eixos
     sf::Font font;
     if (!font.loadFromFile(filename_font_arial)) {
-        std::cerr << "Falha ao carregar a fonte.\n";
-        return;
+        throw std::runtime_error("Falha ao carregar a fonte.");
     }
 
     sf::Text xLabel(sf::String::fromUtf8(legendaX.begin(), legendaX.end()),
