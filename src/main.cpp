@@ -1,3 +1,4 @@
+#include "AreaChart/area_chart.hpp"
 #include "BarChart/bar_chart.hpp"
 #include "DonutChart/donut_chart.hpp"
 #include "LineChart/line_chart.hpp"
@@ -18,6 +19,7 @@ int main(int argc, char *argv[]) {
             {"Pie", 4},  {"Scatter", 5}, {"Area", 6}};
 
         auto input = argv[1];
+        auto area = std::make_shared<AreaChart>();
         auto pie = std::make_shared<PieChart>();
         auto bar = std::make_shared<BarCharts>();
         auto line = std::make_shared<LineChart>();
@@ -47,7 +49,7 @@ int main(int argc, char *argv[]) {
             scatter->run();
             break;
         case 6:
-            std::cout << "Área logo será implementado!!" << '\n';
+            area->run();
             break;
         default:
             break;
